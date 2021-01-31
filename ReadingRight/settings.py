@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_yasg',
     'authentication.apps.AuthenticationConfig',
+    'randomposts.apps.RandompostsConfig',
 ]
 
 REST_FRAMEWORK={
@@ -50,6 +51,16 @@ REST_FRAMEWORK={
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
+}
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header',
+        }
+    }
 }
 
 MIDDLEWARE = [
