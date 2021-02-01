@@ -11,7 +11,7 @@ from django.urls import reverse
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.utils.encoding import smart_str, force_str, smart_bytes, DjangoUnicodeDecodeError,force_bytes
 from django.utils.http import urlsafe_base64_decode,urlsafe_base64_encode
-
+from rest_framework_simplejwt.tokens import RefreshToken, TokenError
 
 class RegisterSerializers(serializers.ModelSerializer):
     password = serializers.CharField(max_length=68, min_length=6, write_only=True)
@@ -71,3 +71,18 @@ class LoginSerializer(serializers.ModelSerializer):
             'username':user.username,
             'tokens': user.tokens(),
         }
+
+class LogoutSerializer(serializers.Serializer):
+    refresh = serializers.CharField()
+
+    def validate(self,attrs):
+        self.token = attrs['refresh']
+
+        return attrs
+
+    def save(self,**kwargs):
+
+        try:
+            RefreshToken(self.token).blacklist()
+        except TokenError:
+            self.fail('bad token')

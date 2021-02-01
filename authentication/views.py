@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from rest_framework import generics,status,views
-from .serializers import RegisterSerializers, LoginSerializer
+from rest_framework import generics,status,views,permissions
+from .serializers import RegisterSerializers, LoginSerializer,LoginSerializer,LogoutSerializer
 from rest_framework.response import Response
 
 #jwt
@@ -53,4 +53,13 @@ class LoginAPIView(generics.GenericAPIView):
 
         return Response(serializer.data,status=status.HTTP_200_OK)
 
+class LogoutAPIView(generics.GenericAPIView):
+    serializer_class = LogoutSerializer
+    permission_classes= (permissions.IsAuthenticated,)
 
+    def post(self, request):
+        serializers = self.serializer_class(data=request.data)
+        serializers.is_valid(raise_exception=True)
+        serializers.save()
+
+        return Response(status=status.HTTP_204_NO_CONTENT)

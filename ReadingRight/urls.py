@@ -21,11 +21,11 @@ from drf_yasg import openapi
 
 schema_view = get_schema_view(
    openapi.Info(
-      title="Snippets API",
+      title="ReadingRight API",
       default_version='v1',
-      description="Test description",
+      description="For viewing 'Posts', after registration and login, use 'Authorize' button given below (type in the box as 'Bearer ___________Authorizaton token__________')",
       terms_of_service="https://www.google.com/policies/terms/",
-      contact=openapi.Contact(email="contact@snippets.local"),
+      contact=openapi.Contact(email="krgaurav@iitk.ac.in"),
       license=openapi.License(name="BSD License"),
    ),
    public=True,
